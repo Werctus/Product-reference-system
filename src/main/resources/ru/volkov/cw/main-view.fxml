@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- id -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.image.ImageView?>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.volkov.cw.MainController">
+
+    <!-- Header with Language Switcher -->
+    <top>
+        <VBox>
+            <!-- Main Header -->
+            <HBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+                <Label text="%app.title"
+                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Language Switcher -->
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Label text="🌐" style="-fx-text-fill: white; -fx-font-size: 18px;"/>
+                    <ComboBox fx:id="cbLanguage" prefWidth="150"
+                              style="-fx-background-radius: 5;"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Main TabPane -->
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+
+            <!-- TAB 1: PRODUCTS -->
+            <Tab text="%tab.products" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <!-- Toolbar -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="%button.add" fx:id="btnAddProduct"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button text="%button.edit" fx:id="btnEditProduct"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                        <Button text="%button.delete" fx:id="btnDeleteProduct"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                        <Button text="%button.refresh" fx:id="btnRefreshProduct"
+                                style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <ComboBox fx:id="cbFilterCategory" promptText="Все категории" prefWidth="150"/>
+
+                        <TextField fx:id="txtSearchProduct" promptText="%product.search.prompt"/>
+                        <Button text="%button.search" fx:id="btnSearchProduct"/>
+                    </HBox>
+
+                    <!-- Product Table -->
+                    <TableView fx:id="tableProducts" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="%product.name" fx:id="colProductName" prefWidth="200"/>
+                            <TableColumn text="%product.article" fx:id="colProductArticle" prefWidth="120"/>
+                            <TableColumn text="%product.price" fx:id="colProductPrice" prefWidth="100"/>
+                            <TableColumn text="%product.brand" fx:id="colProductBrand" prefWidth="150"/>
+                            <TableColumn text="%product.unit" fx:id="colProductUnit" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+
+                    <!-- Product Form (for add/edit) -->
+                    <TitledPane text="%product.details" expanded="false" fx:id="productFormPane" managed="false" visible="false">
+                        <GridPane hgap="10" vgap="10">
+                            <Label text="%product.name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <TextField fx:id="txtProductName" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                            <Label text="%product.price" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                            <TextField fx:id="txtProductPrice" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                            <Label text="Категория" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                                <ComboBox fx:id="cbMainCat" prefWidth="140" editable="true"/>
+                                <Label fx:id="lblMainCatSug" text="Новая" visible="false" managed="false" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;"/>
+                                <Button fx:id="btnFastMainCat" text="Создать" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px;" visible="false" managed="false"/>
+                            </HBox>
+
+                            <Label text="Подкатегория" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                            <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                                <ComboBox fx:id="cbSubCat" prefWidth="140" editable="true"/>
+                                <Label fx:id="lblSubCatSug" text="Новая" visible="false" managed="false" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;"/>
+                                <Button fx:id="btnFastSubCat" text="Создать" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px;" visible="false" managed="false"/>
+                            </HBox>
+
+                            <Label text="Характеристика" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <TextField fx:id="txtProductCharacteristic" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                            <Label text="Скидка (%)" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                            <TextField fx:id="txtProductDiscount" GridPane.columnIndex="3" GridPane.rowIndex="2" text="0.00"/>
+
+                            <Label text="%product.brand" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3" alignment="CENTER_LEFT">
+                                <ComboBox fx:id="cbProductBrand" prefWidth="140" editable="true"/>
+                                <Label fx:id="lblBrandSuggestion" text="Не найден" visible="false" managed="false" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;"/>
+                                <Button fx:id="btnFastAddBrand" text="Создать" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px;" visible="false" managed="false"/>
+                            </HBox>
+
+                            <Label text="НДС (%)" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                            <TextField fx:id="txtProductVat" GridPane.columnIndex="3" GridPane.rowIndex="3" text="20.00"/>
+
+                            <Label text="%product.unit" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
+                                <ComboBox fx:id="cbProductUnit" prefWidth="140" editable="true"/>
+                                <Label fx:id="lblUnitSuggestion" text="Не найдена" visible="false" managed="false" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;"/>
+                                <Button fx:id="btnFastAddUnit" text="Создать" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px;" visible="false" managed="false"/>
+                            </HBox>
+
+                            <ImageView fx:id="imgProduct" fitWidth="150" fitHeight="150"
+                                       GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.rowSpan="4"
+                                       style="-fx-border-color: black;"/>
+                            <Button fx:id="btnChooseImg" text="Выбрать фото"
+                                    GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+
+                            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="3" alignment="CENTER_LEFT">
+                                <padding><Insets top="10"/></padding>
+                                <Button text="%button.save" fx:id="btnSaveProduct" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                                <Button text="%button.cancel" fx:id="btnCancelProduct" style="-fx-background-color: #95a5a6;"/>
+                            </HBox>
+                        </GridPane>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 2: CATEGORIES -->
+            <Tab text="%tab.categories" closable="false">
+                <BorderPane>
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <center>
+                        <TreeView fx:id="treeCategories"
+                                  style="-fx-background-color: #ffffff; -fx-border-color: #dce4ec; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;">
+                            <padding>
+                                <Insets top="5" right="5" bottom="5" left="5"/>
+                            </padding>
+                        </TreeView>
+                    </center>
+
+                    <right>
+                        <VBox spacing="10" prefWidth="280">
+                            <padding>
+                                <Insets left="15"/>
+                            </padding>
+                            <Label text="%category.details" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                            <Separator/>
+
+                            <Label text="%category.name" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                            <TextField fx:id="txtCategoryName"
+                                       style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-padding: 5;"/>
+
+                            <Label text="%category.parent" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                            <ComboBox fx:id="cbParentCategory" promptText="%category.parent.select"
+                                      style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-padding: 3;"/>
+
+                            <Separator/>
+
+                            <HBox spacing="10" alignment="CENTER">
+                                <Button text="%button.save" fx:id="btnSaveCategory"
+                                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-pref-width: 100; -fx-padding: 8;"/>
+                                <Button text="%button.delete" fx:id="btnDeleteCategory"
+                                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-pref-width: 100; -fx-padding: 8;"/>
+                            </HBox>
+                        </VBox>
+                    </right>
+                </BorderPane>
+            </Tab>
+
+            <Tab text="%tab.stores" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <HBox spacing="10">
+                        <Button text="%button.add" fx:id="btnAddStore"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button text="%button.edit" fx:id="btnEditStore"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                        <Button text="%button.delete" fx:id="btnDeleteStore"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <TableView fx:id="tableStores" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="%store.name" fx:id="colStoreName" prefWidth="200"/>
+                            <TableColumn text="%store.address" fx:id="colStoreAddress" prefWidth="250"/>
+                            <TableColumn text="%store.phone" fx:id="colStorePhone" prefWidth="150"/>
+                            <TableColumn text="Email" fx:id="colStoreEmail" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+
+                    <TitledPane text="%store.inventory" fx:id="storeInventoryPane">
+                        <VBox spacing="10">
+                            <HBox spacing="10">
+                                <Label text="%store.select"/>
+                                <ComboBox fx:id="cbStoreSelect" promptText="%store.choose"/>
+                            </HBox>
+
+                            <TableView fx:id="tableStoreInventory" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn text="%product.name" fx:id="colInventoryProduct" prefWidth="250"/>
+                                    <TableColumn text="%store.quantity" fx:id="colInventoryQuantity" prefWidth="100"/>
+                                    <TableColumn text="%store.minLimit" fx:id="colInventoryMinLimit" prefWidth="100"/>
+                                    <TableColumn text="%store.specs" fx:id="colInventorySpecs" prefWidth="200"/>
+                                </columns>
+                            </TableView>
+
+                            <HBox spacing="10">
+                                <Button text="%store.addProduct" fx:id="btnAddToStore"
+                                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                                <Button text="%store.updateQty" fx:id="btnUpdateQuantity"
+                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 4: COMPANIES -->
+            <Tab text="%tab.companies" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <HBox spacing="10">
+                        <Button text="%button.add" fx:id="btnAddCompany"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button text="%button.edit" fx:id="btnEditCompany"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                        <Button text="%button.delete" fx:id="btnDeleteCompany"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <TableView fx:id="tableCompanies" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="%company.name" fx:id="colCompanyName" prefWidth="250"/>
+                            <TableColumn text="%company.inn" fx:id="colCompanyINN" prefWidth="150"/>
+                            <TableColumn text="%company.rating" fx:id="colCompanyRating" prefWidth="100"/>
+                            <TableColumn text="%company.number" fx:id="colCompanyNumber" prefWidth="100"/>
+                            <TableColumn text="%company.address" fx:id="colCompanyAddress" prefWidth="400"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 5: DELIVERIES -->
+            <Tab text="%tab.deliveries" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <HBox spacing="10">
+                        <Button text="%delivery.new" fx:id="btnAddDelivery"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button text="%button.edit" fx:id="btnEditDelivery"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                        <Button text="%button.delete" fx:id="btnDeleteDelivery"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <ComboBox fx:id="cbDeliveryStatusFilter" promptText="%delivery.filterStatus"/>
+                    </HBox>
+
+                    <TableView fx:id="tableDeliveries" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="%delivery.docNumber" fx:id="colDelNum" prefWidth="150"/>
+                            <TableColumn text="%delivery.company" fx:id="colDelComp" prefWidth="200"/>
+                            <TableColumn text="%store.name" fx:id="colDelStore" prefWidth="180"/>
+                            <TableColumn text="%delivery.status" fx:id="colDelStatus" prefWidth="120"/>
+                            <TableColumn text="%delivery.createdAt" fx:id="colDelDate" prefWidth="180"/>
+                        </columns>
+                    </TableView>
+
+                    <TitledPane text="%delivery.items" expanded="false" fx:id="deliveryItemsPane">
+                        <VBox spacing="10">
+                            <TableView fx:id="tableDeliveryItems" prefHeight="200">
+                                <columns>
+                                    <TableColumn text="%product.name" fx:id="colDeliveryItemProduct" prefWidth="250"/>
+                                    <TableColumn text="%delivery.qty" fx:id="colDeliveryItemQuantity" prefWidth="100"/>
+                                    <TableColumn text="%delivery.priceUnit" fx:id="colDeliveryItemPrice" prefWidth="120"/>
+                                    <TableColumn text="%delivery.total" fx:id="colDeliveryItemTotal" prefWidth="120"/>
+                                </columns>
+                            </TableView>
+
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <Label text="%delivery.totalAmount" style="-fx-font-weight: bold;"/>
+                                <Label fx:id="lblDeliveryTotal" text="0.00"
+                                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                                <Button text="Изменить" fx:id="btnEditDeliveryItem" disable="true"
+                                        style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
+                                <Button text="Удалить" fx:id="btnDeleteDeliveryItem" disable="true"
+                                        style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                                <Button text="%delivery.addItem" fx:id="btnAddDeliveryItem"
+                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 6: PRICE HISTORY -->
+            <Tab text="%tab.priceHistory" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <!-- Фильтры -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="%priceHistory.filterProduct"/>
+                        <ComboBox fx:id="cbPriceHistoryProduct" promptText="%priceHistory.chooseProduct"/>
+
+                        <Label text="%priceHistory.dateFrom"/>
+                        <DatePicker fx:id="dpPriceHistoryFrom" promptText="%priceHistory.selectDate"/>
+
+                        <Label text="%priceHistory.dateTo"/>
+                        <DatePicker fx:id="dpPriceHistoryTo" promptText="%priceHistory.selectDate"/>
+
+                        <Button fx:id="btnPriceHistoryFilter" text="%button.filter"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 20px; -fx-background-radius: 5px;"/>
+
+                        <Button fx:id="btnPriceHistoryReset" text="%button.reset"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 20px; -fx-background-radius: 5px;"/>
+                    </HBox>
+
+                    <!-- Таблица -->
+                    <TableView fx:id="tablePriceHistory" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="%priceHistory.product" fx:id="colPriceProduct" prefWidth="300"/>
+                            <TableColumn text="%priceHistory.oldPrice" fx:id="colPriceOld" prefWidth="150"/>
+                            <TableColumn text="%priceHistory.newPrice" fx:id="colPriceNew" prefWidth="150"/>
+                            <TableColumn text="%priceHistory.changedAt" fx:id="colPriceDate" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 8: BRANDS & UNITS -->
+            <Tab text="%tab.references" closable="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <TabPane>
+                        <tabs>
+                            <!-- Вкладка Бренды -->
+                            <Tab text="%references.brands" closable="false">
+                                <VBox spacing="10">
+                                    <HBox spacing="10">
+                                        <TextField fx:id="txtBrandName" promptText="%references.brandName" HBox.hgrow="ALWAYS"/>
+                                        <Button fx:id="btnAddBrand" text="%button.add"
+                                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                                        <Button fx:id="btnDeleteBrand" text="%button.delete"
+                                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                                    </HBox>
+                                    <ListView fx:id="listBrands" VBox.vgrow="ALWAYS"/>
+                                </VBox>
+                            </Tab>
+
+                            <!-- Вкладка Единицы измерения -->
+                            <Tab text="%references.units" closable="false">
+                                <VBox spacing="10">
+                                    <HBox spacing="10">
+                                        <TextField fx:id="txtUnitName" promptText="%references.unitName" HBox.hgrow="ALWAYS"/>
+                                        <Button fx:id="btnAddUnit" text="%button.add"
+                                                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                                        <Button fx:id="btnDeleteUnit" text="%button.delete"
+                                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                                    </HBox>
+                                    <ListView fx:id="listUnits" VBox.vgrow="ALWAYS"/>
+                                </VBox>
+                            </Tab>
+                        </tabs>
+                    </TabPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 9: REPORTS & ANALYTICS -->
+            <Tab text="%tab.reports" closable="false">
+                <TitledPane text="Статус инвентаря"
+                            styleClass="reports-titled-pane"
+                            expanded="true"
+                            animated="true">
+                    <VBox spacing="16" styleClass="cards-container">
+                        <padding>
+                            <Insets top="12" right="12" bottom="12" left="12"/>
+                        </padding>
+
+                        <HBox spacing="16">
+                            <!-- Карточка: Всего товаров -->
+                            <VBox styleClass="stat-card, stat-card-blue"
+                                  HBox.hgrow="ALWAYS"
+                                  maxWidth="280">
+                                <padding>
+                                    <Insets top="24" right="16" bottom="24" left="16"/>
+                                </padding>
+                                <Label text="Всего товаров"
+                                       styleClass="stat-card-label"/>
+                                <Label fx:id="totalProductsLabel"
+                                       text="0"
+                                       styleClass="stat-card-value"/>
+                            </VBox>
+
+                            <!-- Карточка: Товары с низким запасом -->
+                            <VBox styleClass="stat-card, stat-card-red"
+                                  HBox.hgrow="ALWAYS"
+                                  maxWidth="280">
+                                <padding>
+                                    <Insets top="24" right="16" bottom="24" left="16"/>
+                                </padding>
+                                <Label text="Товары с низким запасом"
+                                       styleClass="stat-card-label"/>
+                                <Label fx:id="lowStockLabel"
+                                       text="0"
+                                       styleClass="stat-card-value"/>
+                            </VBox>
+
+                            <!-- Карточка: Всего магазинов -->
+                            <VBox styleClass="stat-card, stat-card-green"
+                                  HBox.hgrow="ALWAYS"
+                                  maxWidth="280">
+                                <padding>
+                                    <Insets top="24" right="16" bottom="24" left="16"/>
+                                </padding>
+                                <Label text="Всего магазинов"
+                                       styleClass="stat-card-label"/>
+                                <Label fx:id="totalStoresLabel"
+                                       text="0"
+                                       styleClass="stat-card-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Секция: Быстрые действия -->
+                <TitledPane text="Быстрые действия"
+                            styleClass="reports-titled-pane"
+                            expanded="true"
+                            animated="true">
+                    <GridPane hgap="16" vgap="16" styleClass="actions-container">
+                        <padding>
+                            <Insets top="12" right="12" bottom="12" left="12"/>
+                        </padding>
+
+                        <!-- Отчёт по поставкам -->
+                        <Button text="Отчёт по поставкам"
+                                styleClass="action-button, action-button-blue"
+                                onAction="#handleSuppliesReport"
+                                GridPane.columnIndex="0"
+                                GridPane.rowIndex="0"
+                                maxWidth="Infinity"
+                                prefHeight="60"/>
+
+                        <!-- Отчёт по изменению цен -->
+                        <Button text="Отчёт по изменению цен"
+                                styleClass="action-button, action-button-purple"
+                                onAction="#handlePriceChangesReport"
+                                GridPane.columnIndex="1"
+                                GridPane.rowIndex="0"
+                                maxWidth="Infinity"
+                                prefHeight="60"/>
+
+                        <!-- Оценка инвентаря -->
+                        <Button text="Оценка инвентаря"
+                                styleClass="action-button, action-button-teal"
+                                onAction="#handleInventoryValuation"
+                                GridPane.columnIndex="0"
+                                GridPane.rowIndex="1"
+                                maxWidth="Infinity"
+                                prefHeight="60"/>
+                    </GridPane>
+                </TitledPane>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+    <!-- Status Bar -->
+    <bottom>
+        <HBox style="-fx-background-color: #34495e; -fx-padding: 8;">
+            <Label fx:id="lblStatusBar" text="%status.ready" style="-fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="%status.lastSync" style="-fx-text-fill: #bdc3c7;"/>
+            <Label fx:id="lblLastSync" text="--:--:--" style="-fx-text-fill: #ecf0f1; -fx-font-weight: bold;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

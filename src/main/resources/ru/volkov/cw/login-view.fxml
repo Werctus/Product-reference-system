@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20" prefWidth="400" prefHeight="350"
+      style="-fx-background-color: #2c3e50;"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.volkov.cw.LoginController">
+
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <!-- Заголовок -->
+    <Label text="%login.title" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+
+    <!-- Форма входа -->
+    <VBox spacing="15" maxWidth="300">
+        <VBox spacing="5">
+            <Label text="%login.username" style="-fx-text-fill: #ecf0f1; -fx-font-size: 12px;"/>
+            <TextField fx:id="txtUsername" promptText="%login.username.prompt"
+                       style="-fx-padding: 10; -fx-background-radius: 5; -fx-font-size: 14px;"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="%login.password" style="-fx-text-fill: #ecf0f1; -fx-font-size: 12px;"/>
+            <PasswordField fx:id="txtPassword" promptText="%login.password.prompt"
+                           style="-fx-padding: 10; -fx-background-radius: 5; -fx-font-size: 14px;"/>
+        </VBox>
+
+        <!-- Сообщение об ошибке -->
+        <Label fx:id="lblError" textFill="#e74c3c" wrapText="true"
+               style="-fx-font-size: 12px;" visible="false" managed="false"/>
+
+        <!-- Кнопка входа -->
+        <Button fx:id="btnLogin" text="%login.button" onAction="#handleLogin"
+                prefWidth="300" prefHeight="45"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;
+                       -fx-font-size: 16px; -fx-font-weight: bold;
+                       -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </VBox>
+</VBox>
