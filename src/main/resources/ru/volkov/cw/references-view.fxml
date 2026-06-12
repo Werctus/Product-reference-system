@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.volkov.cw.controller.ReferencesController">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <TabPane>
+        <tabs>
+            <Tab text="%references.brands" closable="false">
+                <VBox spacing="10">
+                    <HBox spacing="10">
+                        <TextField fx:id="txtBrandName" promptText="%references.brandName" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnAddBrand" text="%button.add" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button fx:id="btnDeleteBrand" text="%button.delete" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    </HBox>
+                    <ListView fx:id="listBrands" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </Tab>
+            <Tab text="%references.units" closable="false">
+                <VBox spacing="10">
+                    <HBox spacing="10">
+                        <TextField fx:id="txtUnitName" promptText="%references.unitName" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnAddUnit" text="%button.add" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button fx:id="btnDeleteUnit" text="%button.delete" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    </HBox>
+                    <ListView fx:id="listUnits" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

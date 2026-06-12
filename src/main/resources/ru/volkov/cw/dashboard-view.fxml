@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.volkov.cw.controller.DashboardController">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+    <TitledPane text="Статус инвентаря" expanded="true" animated="true">
+        <VBox spacing="16">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            <HBox spacing="16">
+                <VBox HBox.hgrow="ALWAYS" maxWidth="280" style="-fx-background-color: #e3f2fd; -fx-background-radius: 8; -fx-padding: 15;">
+                    <Label text="Всего товаров" style="-fx-font-size: 14px;"/>
+                    <Label fx:id="totalProductsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1976d2;"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" maxWidth="280" style="-fx-background-color: #ffebee; -fx-background-radius: 8; -fx-padding: 15;">
+                    <Label text="Товары с низким запасом" style="-fx-font-size: 14px;"/>
+                    <Label fx:id="lowStockLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #d32f2f;"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" maxWidth="280" style="-fx-background-color: #e8f5e9; -fx-background-radius: 8; -fx-padding: 15;">
+                    <Label text="Всего магазинов" style="-fx-font-size: 14px;"/>
+                    <Label fx:id="totalStoresLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #388e3c;"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </TitledPane>
+
+    <TitledPane text="Быстрые действия" expanded="true" animated="true">
+        <GridPane hgap="16" vgap="16">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            <Button text="Отчёт по поставкам" onAction="#handleSuppliesReport" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Button text="Отчёт по изменению цен" onAction="#handlePriceChangesReport" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Button text="Оценка инвентаря" onAction="#handleInventoryValuation" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #009688; -fx-text-fill: white; -fx-font-size: 14px;"/>
+        </GridPane>
+    </TitledPane>
+</VBox>

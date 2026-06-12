@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.volkov.cw.controller.CompanyController">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <HBox spacing="10">
+        <Button text="%button.add" fx:id="btnAddCompany" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        <Button text="%button.edit" fx:id="btnEditCompany" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+        <Button text="%button.delete" fx:id="btnDeleteCompany" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+    </HBox>
+    <TableView fx:id="tableCompanies" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%company.name" fx:id="colCompanyName" prefWidth="250"/>
+            <TableColumn text="%company.inn" fx:id="colCompanyINN" prefWidth="150"/>
+            <TableColumn text="%company.rating" fx:id="colCompanyRating" prefWidth="100"/>
+            <TableColumn text="%company.number" fx:id="colCompanyNumber" prefWidth="100"/>
+            <TableColumn text="%company.address" fx:id="colCompanyAddress" prefWidth="400"/>
+        </columns>
+    </TableView>
+</VBox>

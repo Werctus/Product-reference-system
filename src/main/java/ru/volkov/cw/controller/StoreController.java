@@ -16,10 +16,11 @@ public class StoreController {
     @FXML private TableView<Store> tableStores;
     @FXML private TableColumn<Store, String> colStoreName, colStorePhone, colStoreAddress, colStoreEmail;
     @FXML private Button btnAddStore, btnEditStore, btnDeleteStore;
+    @FXML
+    private InventoryController inventoryController;
 
     private final StoreDAO storeDao = new StoreDAO();
     private ObservableList<Store> storeData = FXCollections.observableArrayList();
-    private InventoryController inventoryController;
     private Consumer<String> statusCallback;
 
     public void setStatusCallback(Consumer<String> statusCallback) { this.statusCallback = statusCallback; }

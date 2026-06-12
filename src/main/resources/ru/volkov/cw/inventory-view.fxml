@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.volkov.cw.controller.InventoryController">
+    <HBox spacing="10">
+        <Label text="%store.select"/>
+        <ComboBox fx:id="cbStoreSelect" promptText="%store.choose"/>
+    </HBox>
+    <TableView fx:id="tableStoreInventory" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%product.name" fx:id="colInventoryProduct" prefWidth="250"/>
+            <TableColumn text="%store.quantity" fx:id="colInventoryQuantity" prefWidth="100"/>
+            <TableColumn text="%store.minLimit" fx:id="colInventoryMinLimit" prefWidth="100"/>
+            <TableColumn text="%store.specs" fx:id="colInventorySpecs" prefWidth="200"/>
+        </columns>
+    </TableView>
+    <HBox spacing="10">
+        <Button text="%store.addProduct" fx:id="btnAddToStore" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        <Button text="%store.updateQty" fx:id="btnUpdateQuantity" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+    </HBox>
+</VBox>
