@@ -5,6 +5,8 @@ module ru.volkov.cw {
     requires java.sql;
     requires java.logging;
     requires org.postgresql.jdbc;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
     exports ru.volkov.cw.model;
     opens ru.volkov.cw.model to javafx.base;

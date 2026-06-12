@@ -26,12 +26,41 @@
         </VBox>
     </TitledPane>
 
-    <TitledPane text="Быстрые действия" expanded="true" animated="true">
-        <GridPane hgap="16" vgap="16">
+    <TitledPane text="Быстрые действия - Отчёты Excel" expanded="true" animated="true">
+        <VBox spacing="16">
             <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-            <Button text="Отчёт по поставкам" onAction="#handleSuppliesReport" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 14px;"/>
-            <Button text="Отчёт по изменению цен" onAction="#handlePriceChangesReport" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-size: 14px;"/>
-            <Button text="Оценка инвентаря" onAction="#handleInventoryValuation" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity" prefHeight="60" style="-fx-background-color: #009688; -fx-text-fill: white; -fx-font-size: 14px;"/>
-        </GridPane>
+
+            <!-- Отчёт по поставкам -->
+            <TitledPane text="Отчёт по поставкам" expanded="true">
+                <VBox spacing="10">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Дата с:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpSuppliesFrom" promptText="Выберите дату"/>
+                        <Label text="Дата по:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpSuppliesTo" promptText="Выберите дату"/>
+                    </HBox>
+                    <Button text="📊 Сгенерировать отчёт по поставкам (Excel)"
+                            onAction="#handleSuppliesReport"
+                            maxWidth="Infinity"
+                            style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12;"/>
+                </VBox>
+            </TitledPane>
+
+            <!-- Отчёт по изменению цен -->
+            <TitledPane text="Отчёт по изменению цен" expanded="true">
+                <VBox spacing="10">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Дата с:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpPriceFrom" promptText="Выберите дату"/>
+                        <Label text="Дата по:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpPriceTo" promptText="Выберите дату"/>
+                    </HBox>
+                    <Button text="📈 Сгенерировать отчёт по ценам (Excel)"
+                            onAction="#handlePriceChangesReport"
+                            maxWidth="Infinity"
+                            style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12;"/>
+                </VBox>
+            </TitledPane>
+        </VBox>
     </TitledPane>
 </VBox>
