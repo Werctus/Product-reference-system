@@ -15,6 +15,17 @@ public class Category {
         this.prefix = prefix;
     }
 
+    public Category(String name, Integer parentId) {
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public Category(int id, String name, Integer parentId) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+    }
+
     public Category(int id, String name, Integer parentId, String prefix) {
         this.id = id;
         this.name = name;

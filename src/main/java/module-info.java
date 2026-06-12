@@ -14,4 +14,6 @@ module ru.volkov.cw {
     opens util to javafx.fxml;
     exports ru.volkov.cw.dao;
     opens ru.volkov.cw.dao to javafx.fxml;
+    exports ru.volkov.cw.controller;
+    opens ru.volkov.cw.controller to javafx.fxml;
 }
