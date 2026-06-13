@@ -43,11 +43,7 @@ public class DeliveryDAO {
         return deliveries;
     }
 
-
-
     public int addDelivery(Delivery del) {
-        // Убираем document_number из списка полей. БД сгенерирует его сама.
-        // Используем RETURNING id, чтобы получить ID созданной записи
         String sql = "INSERT INTO public.delivery (company_id, store_id, status) VALUES (?, ?, 'pending') RETURNING id";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -56,7 +52,6 @@ public class DeliveryDAO {
             pstmt.setInt(1, del.getCompanyId());
             pstmt.setInt(2, del.getStoreId());
 
-            // Выполняем запрос и забираем сгенерированный ID
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
@@ -70,7 +65,6 @@ public class DeliveryDAO {
 
     /**
      * Удаляет документ поставки.
-     * Каскадное удаление (ON DELETE CASCADE) автоматически удалит все связанные позиции из delivery_item.
      *
      * @param id идентификатор удаляемой поставки
      * @return true, если удаление прошло успешно
@@ -82,6 +76,31 @@ public class DeliveryDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Обновляет статус поставки.
+     *
+     * @param id идентификатор поставки
+     * @param status новый статус (например, "pending" или "completed")
+     * @return true, если обновление прошло успешно
+     */
+    public boolean updateDeliveryStatus(int id, String status) {
+        String sql = "UPDATE public.delivery SET status = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setInt(2, id);
+
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
 

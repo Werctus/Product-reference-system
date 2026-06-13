@@ -6,6 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import ru.volkov.cw.controller.MainController;
+import ru.volkov.cw.dao.*;
+import ru.volkov.cw.service.InventoryService;
+import ru.volkov.cw.service.InventoryServiceImpl;
+import ru.volkov.cw.service.ReportService;
+import ru.volkov.cw.service.ReportServiceImpl;
 import util.LocalizationManager;
 
 import java.io.IOException;
@@ -97,6 +103,20 @@ public class LoginController {
                     LocalizationManager.getBundle()
             );
             Parent root = loader.load();
+
+            MainController mainController = loader.getController();
+
+            ReportDAO reportDAO = new ReportDAO();
+            PriceHistoryDAO priceHistoryDAO = new PriceHistoryDAO();
+            ProductDAO productDAO = new ProductDAO();
+            StoreDAO storeDAO = new StoreDAO();
+            InventoryDAO inventoryDAO = new InventoryDAO();
+
+            ReportService reportService = new ReportServiceImpl(reportDAO, priceHistoryDAO);
+            InventoryService inventoryService = new InventoryServiceImpl(productDAO, storeDAO, inventoryDAO);
+
+            mainController.setReportService(reportService);
+            mainController.setInventoryService(inventoryService);
 
             Stage currentStage = (Stage) btnLogin.getScene().getWindow();
             Scene scene = new Scene(root);

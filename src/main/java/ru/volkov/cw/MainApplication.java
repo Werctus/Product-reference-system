@@ -28,7 +28,6 @@ public class MainApplication extends Application {
         logger.info("Starting application with locale: " + currentLocale);
         logger.info("Loaded resources: " + bundle.getLocale());
 
-        // Запускаем окно авторизации вместо главного окна
         FXMLLoader fxmlLoader = new FXMLLoader(
                 MainApplication.class.getResource("login-view.fxml"),
                 bundle

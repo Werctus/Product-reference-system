@@ -153,12 +153,12 @@ public class ReportServiceImpl implements ReportService {
                 workbook.write(fos);
             }
 
-            System.out.println("✅ Отчёт сохранён: " + file.getAbsolutePath());
-            System.out.println("📊 Всего записей: " + reportData.size());
-            System.out.println("💰 Общая сумма: " + totalAmount);
+            System.out.println("Отчёт сохранён: " + file.getAbsolutePath());
+            System.out.println("Всего записей: " + reportData.size());
+            System.out.println("Общая сумма: " + totalAmount);
 
         } catch (IOException e) {
-            System.err.println("❌ Ошибка создания Excel-файла: " + e.getMessage());
+            System.err.println("Ошибка создания Excel-файла: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("Не удалось создать Excel-файл: " + e.getMessage(), e);
         }
@@ -166,7 +166,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void generatePriceChangesReportExcel(LocalDate fromDate, LocalDate toDate, File file) {
-        System.out.println("📈 Генерация Excel-отчёта по изменению цен с " + fromDate + " по " + toDate);
+        System.out.println("Генерация Excel-отчёта по изменению цен с " + fromDate + " по " + toDate);
 
         // Получаем историю цен
         var priceHistoryList = priceHistoryDAO.getPriceHistoryByDateRange(
@@ -179,25 +179,27 @@ public class ReportServiceImpl implements ReportService {
 
             // Создаем стили
             CellStyle headerStyle = createHeaderStyle(workbook);
-            CellStyle dateStyle = createDateStyle(workbook);
+            CellStyle dateTimeStyle = createDateTimeStyle(workbook);
             CellStyle currencyStyle = createCurrencyStyle(workbook);
+            CellStyle percentStyle = createPercentStyle(workbook);
+            CellStyle numberStyle = createNumberStyle(workbook);
 
             // Заголовок отчёта
             Row titleRow = sheet.createRow(0);
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellValue("ОТЧЁТ ПО ИЗМЕНЕНИЮ ЦЕН");
             titleCell.setCellStyle(headerStyle);
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 6));
 
             // Период
             Row periodRow = sheet.createRow(1);
             Cell periodCell = periodRow.createCell(0);
             periodCell.setCellValue("Период: " + fromDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) +
                     " - " + toDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-            sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 5));
+            sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 6));
 
             // Шапка таблицы
-            String[] headers = {"Дата изменения", "Товар", "Старая цена", "Новая цена", "Изменение", "Изменение %"};
+            String[] headers = {"Дата и время", "Товар", "Старая цена", "Новая цена", "Изменение", "Изменение %"};
             Row headerRow = sheet.createRow(3);
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -214,12 +216,12 @@ public class ReportServiceImpl implements ReportService {
             for (PriceHistory history : priceHistoryList) {
                 Row dataRow = sheet.createRow(rowNum++);
 
-                // Дата
-                Cell dateCell = dataRow.createCell(0);
+                // Дата и время изменения
+                Cell dateTimeCell = dataRow.createCell(0);
                 if (history.getChangedAt() != null) {
-                    dateCell.setCellValue(history.getChangedAt());
+                    dateTimeCell.setCellValue(history.getChangedAt());
                 }
-                dateCell.setCellStyle(dateStyle);
+                dateTimeCell.setCellStyle(dateTimeStyle);
 
                 // Товар
                 dataRow.createCell(1).setCellValue(
@@ -253,16 +255,15 @@ public class ReportServiceImpl implements ReportService {
                     changesCount++;
                 }
 
-                // Изменение в процентах
+                // Изменение в процентах - ИСПРАВЛЕНО
                 Cell percentCell = dataRow.createCell(5);
                 if (history.getOldPrice() != null && history.getNewPrice() != null &&
                         history.getOldPrice().doubleValue() != 0) {
                     double oldPrice = history.getOldPrice().doubleValue();
                     double newPrice = history.getNewPrice().doubleValue();
-                    double percent = ((newPrice - oldPrice) / oldPrice) * 100;
-                    percentCell.setCellValue(percent);
-
-                    CellStyle percentStyle = createPercentStyle(workbook);
+                    // Записываем десятичное значение, а не процент
+                    double percentDecimal = (newPrice - oldPrice) / oldPrice;
+                    percentCell.setCellValue(percentDecimal);
                     percentCell.setCellStyle(percentStyle);
                 }
             }
@@ -288,11 +289,11 @@ public class ReportServiceImpl implements ReportService {
                 workbook.write(fos);
             }
 
-            System.out.println("✅ Отчёт сохранён: " + file.getAbsolutePath());
-            System.out.println("📊 Всего изменений цен: " + priceHistoryList.size());
+            System.out.println("Отчёт сохранён: " + file.getAbsolutePath());
+            System.out.println("Всего изменений цен: " + priceHistoryList.size());
 
         } catch (IOException e) {
-            System.err.println("❌ Ошибка создания Excel-файла: " + e.getMessage());
+            System.err.println("Ошибка создания Excel-файла: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("Не удалось создать Excel-файл: " + e.getMessage(), e);
         }
@@ -313,6 +314,17 @@ public class ReportServiceImpl implements ReportService {
         style.setBorderRight(BorderStyle.THIN);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
+        return style;
+    }
+
+    private CellStyle createDateTimeStyle(Workbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+        DataFormat format = workbook.createDataFormat();
+        style.setDataFormat(format.getFormat("dd.mm.yyyy hh:mm"));
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
         return style;
     }
 
